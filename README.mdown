@@ -5,12 +5,12 @@ mootools plugin, inspired by first release of [jQuery Spy](http://leftlogic.com/
 usage
 -----
 grab your own copy via `git clone git://github.com/comz/mootools-fx-spyeffect.git` and in your (x)HTML view (page, file or how you call that) insert
-`<script type="text/javascript" charset="utf-8" src="fx.spyEffect.js"></script>
-<script type="text/javascript" charset="utf-8">
+`&lt;script type="text/javascript" charset="utf-8" src="fx.spyEffect.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript" charset="utf-8"&gt;
 		window.addEvent('domready', function() {
 			spyEffect = new Fx.spyEffect( { element: $$("ul.spy") } );
 		});
-</script>` into `<head>` tag, after inclusion of mootools javascripts (for this kind of info, inspect [MooTools Home Page](http://mootools.net))
+&lt;/script&gt;` into `<head>` tag, after inclusion of mootools javascripts (for this kind of info, inspect [MooTools Home Page](http://mootools.net))
 
 version
 -------
