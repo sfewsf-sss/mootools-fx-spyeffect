@@ -8,7 +8,7 @@
 	Licence: 		MIT
 */
 
-Fx.spyEffect = new Class({	
+Fx.spyEffect = new Class({
 	// accepts parameters in hash:
 	//   element: ul element used to cycle the li items
 	//   limit: how many li will be shown
@@ -16,6 +16,11 @@ Fx.spyEffect = new Class({
 	initialize : function( options ) {
 		// initialize the variables
 		$container = options.element;
+		$container.addEvent( 'mouseleave', function( cl ) {
+			this.startEffect();
+			this.hideMe( false );
+		}.bind( this ));
+		
 		$list = $container.getChildren("li")[0];
 		limit = options.limit || 4;
 		interval = options.interval || 5000;
@@ -29,13 +34,16 @@ Fx.spyEffect = new Class({
     $list[0].getParent().set( 'styles', { 'height': ( liHeight * limit ) } );
 		// fill the items array with lis
 		$list.each(function( li, index ) {
+			li.addEvent( 'mouseenter', function() {
+				this.stopEffect();
+				this.hideMe( true, li );
+			}.bind( this ) );
 			items.push( li );
 			if( index > limit - 1 ) { li.dispose(); }
-		});
+		}.bind( this ) );
 		totalCount = items.length;
-
-		// periodical call effect, based on the setted inteval
-		this.delayTimer = this.effect.periodical(interval, this);
+		
+		this.startEffect();
 	},
 	
 	effect : function() {
@@ -61,5 +69,23 @@ Fx.spyEffect = new Class({
 		if (currentItem >= totalCount) {
 		    currentItem = 0;
 		}
+	},
+	
+	startEffect : function() {
+		// periodical call effect, based on the setted inteval
+		this.delayTimer = this.effect.periodical(interval, this);
+	},
+	
+	stopEffect : function() {
+		$clear( this.delayTimer );
+	},
+	
+	hideMe : function( showMe, li ) {
+		opacityValue = ( showMe ? '0.3' : '1' );
+		$container.getChildren( 'li' ).each( function( hidden ) {
+			hidden.set( 'styles', { 'opacity' : opacityValue } );
+		});
+		
+		if( $defined( li ) ) { li.set( 'styles', { 'opacity': 1 } ); }
 	}
 });
